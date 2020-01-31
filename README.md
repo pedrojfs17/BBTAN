@@ -1,2 +1,0 @@
-# BBTAN
-Created with CodeSandbox
