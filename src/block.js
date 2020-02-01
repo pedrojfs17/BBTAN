@@ -1,4 +1,4 @@
-import { collisionDetection } from "./collisions";
+import { detectCollision } from "./collisions";
 
 export default class Block {
   constructor(game, position, life) {
@@ -13,10 +13,47 @@ export default class Block {
   }
 
   update(deltaTime) {
+    /*
+    if (collisionDetection(this.game.ball, this)) {
+      let centerXBall = this.game.ball.position.x + this.game.ball.size / 2;
+      let centerYBall = this.game.ball.position.y + this.game.ball.size / 2;
+      let radius = this.game.ball.size / 2;
+      //let centerXBlock = this.position.x + this.size / 2;
+      //let centerYBlock = this.position.y + this.size / 2;
+
+      // Horizontal
+      if (centerXBall + this.game.ball.speed.x + radius > this.position.x)
+        this.game.ball.speed.x = -this.game.ball.speed.x;
+
+      // Vertical
+      if (
+        centerYBall + this.game.ball.speed.y + radius >
+        this.position.y + this.size
+      )
+        this.game.ball.speed.y = -this.game.ball.speed.y;
+      
+      this.life = Number(this.life) - 1;
+    }*/
+
+    /*
     if (collisionDetection(this.game.ball, this) < 0) {
       this.game.ball.speed.x = -this.game.ball.speed.x;
       this.life = Number(this.life) - 1;
     } else if (collisionDetection(this.game.ball, this) > 0) {
+      this.game.ball.speed.y = -this.game.ball.speed.y;
+      this.life = Number(this.life) - 1;
+    }*/
+
+    let col = detectCollision(this.game.ball, this);
+
+    if (col === -1) {
+      this.game.ball.speed.y = -this.game.ball.speed.y;
+      this.life = Number(this.life) - 1;
+    } else if (col === 1) {
+      this.game.ball.speed.x = -this.game.ball.speed.x;
+      this.life = Number(this.life) - 1;
+    } else if (col === 2) {
+      this.game.ball.speed.x = -this.game.ball.speed.x;
       this.game.ball.speed.y = -this.game.ball.speed.y;
       this.life = Number(this.life) - 1;
     }

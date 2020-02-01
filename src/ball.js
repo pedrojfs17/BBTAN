@@ -1,5 +1,3 @@
-import { collisionDetection } from "./collisions";
-
 export default class Ball {
   constructor(game) {
     this.image = document.getElementById("img_ball");
@@ -9,9 +7,17 @@ export default class Ball {
 
     this.game = game;
 
-    this.speed = { x: 10, y: -6 };
-    this.position = { x: this.gameWidth / 2, y: this.gameHeight - 20 };
+    this.position = {
+      x: this.game.player.position.x,
+      y: this.game.player.position.y
+    };
     this.size = 16;
+
+    this.angle = this.game.player.angle;
+    this.speed = {
+      x: 15 * Math.sin(this.angle),
+      y: -15 * Math.cos(this.angle)
+    };
   }
 
   draw(ctx) {

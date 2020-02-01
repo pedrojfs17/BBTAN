@@ -24,6 +24,10 @@ export default class InputHandler {
           game.shoot();
           break;
 
+        case 82: // R
+          game.toggleStart();
+          break;
+
         default:
           break;
       }

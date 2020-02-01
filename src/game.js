@@ -1,7 +1,6 @@
 import Player from "./player";
 import InputHandler from "./input";
 import Ball from "./ball";
-import Block from "./block";
 import { newLevel } from "./level";
 
 const GAMESTATE = {
@@ -18,34 +17,42 @@ export default class Game {
     this.gameHeight = gameHeight;
     this.blocks = [];
     this.level = 0;
+    this.player = new Player(this);
     this.ball = new Ball(this);
+    new InputHandler(this.player, this);
+    this.gamestate = GAMESTATE.PLAYERMOVE;
   }
 
   start() {
     this.gamestate = GAMESTATE.PLAYERMOVE;
 
-    this.player = new Player(this);
-
     this.level++;
     this.blocks = newLevel(this, this.level);
 
     this.gameObjects = [this.player, ...this.blocks];
-
-    new InputHandler(this.player, this);
   }
 
   shoot() {
     if (this.gamestate === GAMESTATE.PLAYERMOVE) {
       this.gamestate = GAMESTATE.RUNNING;
       this.ball = new Ball(this);
-      this.gameObjects.push(this.ball);
+      this.gameObjects = [this.ball, ...this.gameObjects];
     }
+  }
+
+  gameOver() {
+    this.gamestate = GAMESTATE.GAMEOVER;
+    this.level = 0;
   }
 
   update(deltaTime) {
     if (this.gamestate === GAMESTATE.PAUSE) return;
 
-    if (this.gamestate === GAMESTATE.PLAYERMOVE) this.player.update(deltaTime);
+    if (this.gamestate === GAMESTATE.PLAYERMOVE) {
+      this.player.update(deltaTime);
+      this.gameObjects.forEach(object => object.update(deltaTime));
+      this.gameObjects = this.gameObjects.filter(object => !object.destroyed);
+    }
 
     if (this.gamestate === GAMESTATE.RUNNING) {
       this.gameObjects.forEach(object => object.update(deltaTime));
@@ -55,6 +62,23 @@ export default class Game {
 
   draw(ctx) {
     this.gameObjects.forEach(object => object.draw(ctx));
+
+    if (this.gamestate === GAMESTATE.GAMEOVER) {
+      ctx.rect(0, 0, this.gameWidth, this.gameHeight);
+      ctx.fillStyle = "#000000";
+      ctx.fill();
+
+      ctx.font = "80px Comic Sans MS";
+      ctx.fillStyle = "#FFFFFF";
+      ctx.textAlign = "center";
+      ctx.fillText("GAME OVER", this.gameWidth / 2, this.gameHeight / 2 - 10);
+      ctx.font = "25px Comic Sans MS";
+      ctx.fillText(
+        "Press 'r' to Restart",
+        this.gameWidth / 2,
+        this.gameHeight / 2 + 50
+      );
+    }
   }
 
   togglePause() {
@@ -64,12 +88,12 @@ export default class Game {
       this.gamestate = GAMESTATE.PAUSE;
     }
   }
+
+  toggleStart() {
+    if (this.gamestate === GAMESTATE.GAMEOVER) {
+      this.gamestate = GAMESTATE.PLAYERMOVE;
+      this.blocks = [];
+      this.start();
+    }
+  }
 }
-
-/* 
-  O jogo a cada jogada baixa todos os blocos uma casa, e cria novos blocos 
-com números random dentro de um range, que vai aumentando consoante o nivel
-em que o jogador se encontra. A cada jogada é incrementado um ao nivel, e
-5 bolas ao jogador e em 5 o range das casas.
-
-*/

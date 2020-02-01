@@ -9,7 +9,7 @@ export default class Player {
 
     this.position = {
       x: game.gameWidth / 2,
-      y: game.gameHeight - 50
+      y: game.gameHeight - 40
     };
     this.angle = 0;
 
@@ -37,7 +37,7 @@ export default class Player {
     this.position.x += this.speed;
     this.angle += this.angleSpeed;
 
-    if (this.position.x < 0) this.position.x = 0;
+    if (this.position.x - this.width < 0) this.position.x = this.width;
 
     if (this.position.x + this.width > this.gameWidth)
       this.position.x = this.gameWidth - this.width;
