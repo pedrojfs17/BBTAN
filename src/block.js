@@ -13,17 +13,16 @@ export default class Block {
   }
 
   update(deltaTime) {
-    if (Number(this.life) === 0 && !this.destroyed) {
-      this.destroyed = true;
-      return;
-    }
-
     if (collisionDetection(this.game.ball, this) < 0) {
       this.game.ball.speed.x = -this.game.ball.speed.x;
       this.life = Number(this.life) - 1;
     } else if (collisionDetection(this.game.ball, this) > 0) {
       this.game.ball.speed.y = -this.game.ball.speed.y;
       this.life = Number(this.life) - 1;
+    }
+
+    if (Number(this.life) === 0 && !this.destroyed) {
+      this.destroyed = true;
     }
   }
 

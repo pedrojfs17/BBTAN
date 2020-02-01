@@ -14,7 +14,7 @@ export function newLevel(game, level) {
       new Block(
         game,
         { x: 7 + 90 * positions[randomPosition], y: 7 },
-        level * 7
+        level * 1
       )
     );
 

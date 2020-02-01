@@ -18,28 +18,39 @@ export default class Game {
     this.gameHeight = gameHeight;
     this.blocks = [];
     this.level = 0;
+    this.ball = new Ball(this);
   }
 
   start() {
     this.gamestate = GAMESTATE.PLAYERMOVE;
 
     this.player = new Player(this);
-    this.ball = new Ball(this);
 
     this.level++;
     this.blocks = newLevel(this, this.level);
 
-    this.gameObjects = [this.player, this.ball, ...this.blocks];
+    this.gameObjects = [this.player, ...this.blocks];
 
     new InputHandler(this.player, this);
+  }
+
+  shoot() {
+    if (this.gamestate === GAMESTATE.PLAYERMOVE) {
+      this.gamestate = GAMESTATE.RUNNING;
+      this.ball = new Ball(this);
+      this.gameObjects.push(this.ball);
+    }
   }
 
   update(deltaTime) {
     if (this.gamestate === GAMESTATE.PAUSE) return;
 
-    this.gameObjects.forEach(object => object.update(deltaTime));
+    if (this.gamestate === GAMESTATE.PLAYERMOVE) this.player.update(deltaTime);
 
-    this.gameObjects = this.gameObjects.filter(object => !object.destroyed);
+    if (this.gamestate === GAMESTATE.RUNNING) {
+      this.gameObjects.forEach(object => object.update(deltaTime));
+      this.gameObjects = this.gameObjects.filter(object => !object.destroyed);
+    }
   }
 
   draw(ctx) {
