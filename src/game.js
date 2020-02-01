@@ -4,6 +4,14 @@ import Ball from "./ball";
 import Block from "./block";
 import { newLevel } from "./level";
 
+const GAMESTATE = {
+  RUNNING: 0,
+  PLAYERMOVE: 1,
+  GAMEOVER: 2,
+  PAUSE: 3,
+  MENU: 4
+};
+
 export default class Game {
   constructor(gameWidth, gameHeight) {
     this.gameWidth = gameWidth;
@@ -13,34 +21,37 @@ export default class Game {
   }
 
   start() {
+    this.gamestate = GAMESTATE.PLAYERMOVE;
+
     this.player = new Player(this);
     this.ball = new Ball(this);
 
     this.level++;
     this.blocks = newLevel(this, this.level);
-    /*for (let i = 0; i < 7; i++) {
-      for (let j = 0; j < 7; j++) {
-        blocks.push(new Block(this, { x: 7 + 90 * i, y: 7 + 90 * j }, 1 + i));
-      }
-    }*/
 
     this.gameObjects = [this.player, this.ball, ...this.blocks];
 
-    new InputHandler(this.player);
+    new InputHandler(this.player, this);
   }
 
   update(deltaTime) {
-    /*this.player.update(deltaTime);
-    this.ball.update(deltaTime);*/
+    if (this.gamestate === GAMESTATE.PAUSE) return;
 
     this.gameObjects.forEach(object => object.update(deltaTime));
+
+    this.gameObjects = this.gameObjects.filter(object => !object.destroyed);
   }
 
   draw(ctx) {
-    /*this.player.draw(ctx);
-    this.ball.draw(ctx);*/
-
     this.gameObjects.forEach(object => object.draw(ctx));
+  }
+
+  togglePause() {
+    if (this.gamestate === GAMESTATE.PAUSE) {
+      this.gamestate = GAMESTATE.RUNNING;
+    } else {
+      this.gamestate = GAMESTATE.PAUSE;
+    }
   }
 }
 

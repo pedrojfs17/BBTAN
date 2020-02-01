@@ -8,7 +8,7 @@ export function newLevel(game, level) {
   let randomNumber = Math.floor(Math.random() * 7) + 1;
 
   for (let i = 0; i < randomNumber; i++) {
-    let randomPosition = Math.floor(Math.random() * positions.length) + 1;
+    let randomPosition = Math.floor(Math.random() * positions.length);
 
     blocks.push(
       new Block(

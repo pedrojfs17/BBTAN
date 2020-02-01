@@ -11,13 +11,25 @@ export function collisionDetection(ball, block) {
   let leftBlock = block.position.x;
   let rightBlock = block.position.x + block.size;
 
+  let goingLeft = ball.speed.x < 0;
+  let goingUp = ball.speed.y < 0;
+
   //
   // to do
   //
-  if (rightBall >= leftBlock && leftBall <= rightBlock) {
-    return 1; // Horizontal Collision
-  } else if (bottomBall >= topBlock && topBall <= bottomBlock) {
-    return -1; // Vertical Collision
+  if (
+    rightBall >= leftBlock &&
+    leftBall <= rightBlock &&
+    bottomBall >= topBlock &&
+    topBall <= bottomBlock
+  ) {
+    if (
+      rightBall - ball.speed.x <= leftBlock ||
+      leftBall - ball.speed.x >= rightBlock
+    )
+      return -1;
+    // Horizontal
+    else return 1; // Vertical Collision
   } else {
     return 0; // No Collision
   }
