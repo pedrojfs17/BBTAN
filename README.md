@@ -4,6 +4,15 @@ Remake of the game BBTAN in JavaScript using CodeSandbox.
 
 [Project Link](https://codesandbox.io/s/github/pedrojfs17/BBTAN)
 
+## How to Play
+
+On the player's turn:
+* Move the cannon Right with ```D``` or Left with ```A```.
+* Rotate the cannon Right using ```ArrowRight``` and Left using ```ArrowLeft```.
+* Shoot with ```SpaceBar```.
+
+When you lose the game:
+* Press ```R``` to restart the game.
 
 ## Installation
 
@@ -14,17 +23,10 @@ cd Desktop/
 git clone https://github.com/pedrojfs17/BBTAN.git
 ```
 
-After this, you should open Visual Studio Code and install the extension **LiveServer** from the menu or type ```ctrl+p``` and ```ext install ritwickdey.liveserver ```. When it finishes installation, you just need to right-click on the **index.html** file and **Open with Live Server** (```alt+l``` + ```alt+o```) .
+After this, you should open Visual Studio Code and install the extension **LiveServer** from the menu or type ```ctrl+p``` and ```ext install ritwickdey.liveserver ```. 
+
+When it finishes installation, you just need to right-click on the **index.html** file and **Open with Live Server** (```alt+l``` + ```alt+o```) .
 
 ![Open With Live Server](https://github.com/pedrojfs17/BBTAN/blob/master/assets/images/openWithLiveServer.PNG)
 
-## How to Play
-
-On the player's turn:
-* Move the cannon Right with ```D``` or Left with ```A```.
-* Rotate the cannon Right using ```ArrowRight``` and Left using ```ArrowLeft```.
-* Shoot with ```SpaceBar```.
-
-When you lose the game:
-* Press ```R``` to restart the game.
 
