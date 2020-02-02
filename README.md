@@ -29,4 +29,4 @@ When it finishes installation, you just need to right-click on the **index.html*
 
 ![Open With Live Server](https://github.com/pedrojfs17/BBTAN/blob/master/assets/images/openWithLiveServer.PNG)
 
-
+PS: You should zoom out on your web browser so you can see the full canvas in your screen and have the best game experience. 
