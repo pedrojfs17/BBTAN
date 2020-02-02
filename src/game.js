@@ -1,7 +1,7 @@
-import Player from "./player";
-import InputHandler from "./input";
-import Ball from "./ball";
-import { newLevel } from "./level";
+import Player from "./player.js";
+import InputHandler from "./input.js";
+import Ball from "./ball.js";
+import { newLevel } from "./level.js";
 
 const GAMESTATE = {
   RUNNING: 0,
