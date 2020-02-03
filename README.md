@@ -9,6 +9,7 @@ Remake of the game BBTAN in JavaScript using CodeSandbox.
 On the player's turn:
 * Move the cannon Right with ```D``` or Left with ```A```.
 * Rotate the cannon Right using ```ArrowRight``` and Left using ```ArrowLeft```.
+* Change the ball speed using ```ArrowUp``` to increase or ```ArrowDown``` to decrease.
 * Shoot with ```SpaceBar```.
 
 When you lose the game:
