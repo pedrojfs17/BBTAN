@@ -15,9 +15,11 @@ export default class Ball {
 
     this.angle = this.game.player.angle;
     this.speed = {
-      x: 15 * Math.sin(this.angle),
-      y: -15 * Math.cos(this.angle)
+      x: this.game.ballSpeed * Math.sin(this.angle),
+      y: -this.game.ballSpeed * Math.cos(this.angle)
     };
+
+    this.power = Math.round((this.game.level + 1) / 2);
   }
 
   draw(ctx) {

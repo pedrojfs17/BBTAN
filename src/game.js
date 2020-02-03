@@ -19,6 +19,12 @@ export default class Game {
     this.level = 0;
     this.player = new Player(this);
     this.ball = new Ball(this);
+
+    this.ballSpeed = 10;
+    this.ballSpeedIncrease = 1;
+    this.maxBallSpeed = 20;
+    this.minBallSpeed = 7;
+
     new InputHandler(this.player, this);
     this.gamestate = GAMESTATE.PLAYERMOVE;
   }
@@ -52,6 +58,11 @@ export default class Game {
       this.player.update(deltaTime);
       this.gameObjects.forEach(object => object.update(deltaTime));
       this.gameObjects = this.gameObjects.filter(object => !object.destroyed);
+      this.ballSpeed += this.ballSpeedIncrease;
+      if (this.ballSpeed >= this.maxBallSpeed)
+        this.ballSpeed = this.maxBallSpeed;
+      if (this.ballSpeed <= this.minBallSpeed)
+        this.ballSpeed = this.minBallSpeed;
     }
 
     if (this.gamestate === GAMESTATE.RUNNING) {
@@ -62,6 +73,32 @@ export default class Game {
 
   draw(ctx) {
     this.gameObjects.forEach(object => object.draw(ctx));
+
+    if (
+      this.gamestate !== GAMESTATE.GAMEOVER ||
+      this.gamestate !== GAMESTATE.MENU
+    ) {
+      ctx.beginPath();
+      ctx.moveTo(0, 638);
+      ctx.lineTo(630, 638);
+      ctx.strokeStyle = "rgb(255,0,0,0.2)";
+      ctx.stroke();
+
+      ctx.font = "25px Comic Sans MS";
+      ctx.fillStyle = "rgb(0,0,0,0.5)";
+      ctx.textAlign = "left";
+      ctx.fillText(
+        "Ball Power: " + Math.round((this.level + 1) / 2),
+        10,
+        this.gameHeight - 130
+      );
+      ctx.textAlign = "right";
+      ctx.fillText(
+        "Level: " + this.level,
+        this.gameWidth - 10,
+        this.gameHeight - 130
+      );
+    }
 
     if (this.gamestate === GAMESTATE.GAMEOVER) {
       ctx.rect(0, 0, this.gameWidth, this.gameHeight);
@@ -95,5 +132,17 @@ export default class Game {
       this.blocks = [];
       this.start();
     }
+  }
+
+  higherSpeed() {
+    this.ballSpeedIncrease = 1;
+  }
+
+  lowerSpeed() {
+    this.ballSpeedIncrease = -1;
+  }
+
+  stopChangeSpeed() {
+    this.ballSpeedIncrease = 0;
   }
 }
