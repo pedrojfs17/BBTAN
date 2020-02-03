@@ -25,7 +25,7 @@ export function newLevel(game, level) {
 
   gameBlocks.forEach(function(element) {
     element.position.y += 90;
-    if (element.position.y >= 7 + 90 * 8) game.gameOver();
+    if (element.position.y >= 7 + 90 * 7) game.gameOver();
   });
 
   return [...blocks, ...gameBlocks];

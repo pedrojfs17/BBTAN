@@ -21,7 +21,7 @@ export default class Game {
     this.ball = new Ball(this);
 
     this.ballSpeed = 10;
-    this.ballSpeedIncrease = 0.5;
+    this.ballSpeedIncrease = 0;
     this.maxBallSpeed = 20;
     this.minBallSpeed = 7;
 
@@ -56,8 +56,9 @@ export default class Game {
 
     if (this.gamestate === GAMESTATE.PLAYERMOVE) {
       this.player.update(deltaTime);
-      this.gameObjects.forEach(object => object.update(deltaTime));
+      this.blocks = this.blocks.filter(object => !object.destroyed);
       this.gameObjects = this.gameObjects.filter(object => !object.destroyed);
+      this.gameObjects.forEach(object => object.update(deltaTime));
       this.ballSpeed += this.ballSpeedIncrease;
       if (this.ballSpeed >= this.maxBallSpeed)
         this.ballSpeed = this.maxBallSpeed;
@@ -66,8 +67,9 @@ export default class Game {
     }
 
     if (this.gamestate === GAMESTATE.RUNNING) {
-      this.gameObjects.forEach(object => object.update(deltaTime));
+      this.blocks = this.blocks.filter(object => !object.destroyed);
       this.gameObjects = this.gameObjects.filter(object => !object.destroyed);
+      this.gameObjects.forEach(object => object.update(deltaTime));
     }
   }
 
@@ -79,8 +81,8 @@ export default class Game {
       this.gamestate !== GAMESTATE.MENU
     ) {
       ctx.beginPath();
-      ctx.moveTo(0, 638);
-      ctx.lineTo(630, 638);
+      ctx.moveTo(0, 637);
+      ctx.lineTo(630, 637);
       ctx.strokeStyle = "rgb(255,0,0,0.2)";
       ctx.stroke();
 
@@ -135,11 +137,11 @@ export default class Game {
   }
 
   higherSpeed() {
-    this.ballSpeedIncrease = 1;
+    this.ballSpeedIncrease = 0.5;
   }
 
   lowerSpeed() {
-    this.ballSpeedIncrease = -1;
+    this.ballSpeedIncrease = -0.5;
   }
 
   stopChangeSpeed() {
