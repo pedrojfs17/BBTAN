@@ -16,9 +16,9 @@ export default class Player {
     };
     this.angle = 0;
 
-    this.maxSpeed = 7;
+    this.maxSpeed = 3;
     this.speed = 0;
-    this.maxAngleSpeed = (2 * Math.PI) / 180;
+    this.maxAngleSpeed = Math.PI / 1.5 / 180;
     this.angleSpeed = 0;
   }
 

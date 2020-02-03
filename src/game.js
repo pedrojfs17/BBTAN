@@ -21,7 +21,7 @@ export default class Game {
     this.ball = new Ball(this);
 
     this.ballSpeed = 10;
-    this.ballSpeedIncrease = 1;
+    this.ballSpeedIncrease = 0.5;
     this.maxBallSpeed = 20;
     this.minBallSpeed = 7;
 
