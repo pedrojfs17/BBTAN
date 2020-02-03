@@ -16,6 +16,13 @@ export default class InputHandler {
           player.moveRight();
           break;
 
+        case 38:
+          game.higherSpeed();
+          break;
+        case 40:
+          game.lowerSpeed();
+          break;
+
         case 27: // ESC
           game.togglePause();
           break;
@@ -47,6 +54,14 @@ export default class InputHandler {
           break;
         case 68: // D
           if (player.speed > 0) player.stop();
+          break;
+
+        case 38:
+          if (game.ballSpeedIncrease > 0) game.stopChangeSpeed();
+          break;
+
+        case 40:
+          if (game.ballSpeedIncrease < 0) game.stopChangeSpeed();
           break;
 
         default:

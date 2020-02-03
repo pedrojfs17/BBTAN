@@ -17,17 +17,17 @@ export default class Block {
 
     if (col === -1) {
       this.game.ball.speed.y = -this.game.ball.speed.y;
-      this.life = Number(this.life) - 1;
+      this.life = Number(this.life) - this.game.ball.power;
     } else if (col === 1) {
       this.game.ball.speed.x = -this.game.ball.speed.x;
-      this.life = Number(this.life) - 1;
+      this.life = Number(this.life) - this.game.ball.power;
     } else if (col === 2) {
       this.game.ball.speed.x = -this.game.ball.speed.x;
       this.game.ball.speed.y = -this.game.ball.speed.y;
-      this.life = Number(this.life) - 1;
+      this.life = Number(this.life) - this.game.ball.power;
     }
 
-    if (Number(this.life) === 0 && !this.destroyed) {
+    if (Number(this.life) <= 0 && !this.destroyed) {
       this.destroyed = true;
     }
   }

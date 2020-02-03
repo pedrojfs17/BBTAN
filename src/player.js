@@ -1,3 +1,5 @@
+import { scale } from "./utils.js";
+
 export default class Player {
   constructor(game) {
     this.image = document.getElementById("img_cannon");
@@ -5,6 +7,7 @@ export default class Player {
     this.width = this.image.width / 6;
     this.height = this.image.height / 6;
 
+    this.game = game;
     this.gameWidth = game.gameWidth;
 
     this.position = {
@@ -23,6 +26,14 @@ export default class Player {
     ctx.save();
     ctx.translate(this.position.x, this.position.y);
     ctx.rotate(this.angle);
+
+    ctx.strokeStyle = "rgb(0,0,0,0.2)";
+    ctx.setLineDash([6, 10]); /*dashes are 5px and spaces are 3px*/
+    ctx.beginPath();
+    ctx.moveTo(0, -10);
+    ctx.lineTo(0, -scale(this.game.ballSpeed, 7, 20, 125, 275));
+    ctx.stroke();
+
     ctx.drawImage(
       this.image,
       this.width / -2,
