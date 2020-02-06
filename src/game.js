@@ -18,7 +18,9 @@ export default class Game {
     this.blocks = [];
     this.level = 0;
     this.player = new Player(this);
-    this.ball = new Ball(this);
+
+    this.gameBalls = [];
+    this.activeBalls = 0;
 
     this.ballSpeed = 10;
     this.ballSpeedIncrease = 0;
@@ -27,6 +29,8 @@ export default class Game {
 
     new InputHandler(this.player, this);
     this.gamestate = GAMESTATE.PLAYERMOVE;
+
+    this.frames = 0;
   }
 
   start() {
@@ -34,6 +38,8 @@ export default class Game {
 
     this.level++;
     this.blocks = newLevel(this, this.level);
+    this.gameBalls = [];
+    this.activeBalls = 0;
 
     this.gameObjects = [this.player, ...this.blocks];
   }
@@ -41,8 +47,10 @@ export default class Game {
   shoot() {
     if (this.gamestate === GAMESTATE.PLAYERMOVE) {
       this.gamestate = GAMESTATE.RUNNING;
-      this.ball = new Ball(this);
-      this.gameObjects = [this.ball, ...this.gameObjects];
+      this.gameBalls.push(new Ball(this));
+      this.activeBalls++;
+      this.frames = 0;
+      this.gameObjects = [...this.gameBalls, ...this.gameObjects];
     }
   }
 
@@ -52,6 +60,8 @@ export default class Game {
   }
 
   update(deltaTime) {
+    this.frames++;
+
     if (this.gamestate === GAMESTATE.PAUSE) return;
 
     if (this.gamestate === GAMESTATE.PLAYERMOVE) {
@@ -67,7 +77,15 @@ export default class Game {
     }
 
     if (this.gamestate === GAMESTATE.RUNNING) {
+      if (
+        this.activeBalls < Math.round((this.level + 1) / 2) &&
+        this.frames % 10 === 0
+      ) {
+        this.gameBalls.push(new Ball(this));
+        this.activeBalls++;
+      }
       this.blocks = this.blocks.filter(object => !object.destroyed);
+      this.gameObjects = [...this.gameBalls, this.player, ...this.blocks];
       this.gameObjects = this.gameObjects.filter(object => !object.destroyed);
       this.gameObjects.forEach(object => object.update(deltaTime));
     }
@@ -90,7 +108,7 @@ export default class Game {
       ctx.fillStyle = "rgb(0,0,0,0.5)";
       ctx.textAlign = "left";
       ctx.fillText(
-        "Ball Power: " + Math.round((this.level + 1) / 2),
+        "Balls: " + Math.round((this.level + 1) / 2),
         10,
         this.gameHeight - 130
       );

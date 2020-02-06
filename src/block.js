@@ -13,22 +13,25 @@ export default class Block {
   }
 
   update(deltaTime) {
-    let col = detectCollision(this.game.ball, this);
+    for (let i = 0; i < this.game.gameBalls.length; i++) {
+      let col = detectCollision(this.game.gameBalls[i], this);
 
-    if (col === -1) {
-      this.game.ball.speed.y = -this.game.ball.speed.y;
-      this.life = Number(this.life) - this.game.ball.power;
-    } else if (col === 1) {
-      this.game.ball.speed.x = -this.game.ball.speed.x;
-      this.life = Number(this.life) - this.game.ball.power;
-    } else if (col === 2) {
-      this.game.ball.speed.x = -this.game.ball.speed.x;
-      this.game.ball.speed.y = -this.game.ball.speed.y;
-      this.life = Number(this.life) - this.game.ball.power;
-    }
+      if (col === -1) {
+        this.game.gameBalls[i].speed.y = -this.game.gameBalls[i].speed.y;
+        this.life = Number(this.life) - 1;
+      } else if (col === 1) {
+        this.game.gameBalls[i].speed.x = -this.game.gameBalls[i].speed.x;
+        this.life = Number(this.life) - 1;
+      } else if (col === 2) {
+        this.game.gameBalls[i].speed.x = -this.game.gameBalls[i].speed.x;
+        this.game.gameBalls[i].speed.y = -this.game.gameBalls[i].speed.y;
+        this.life = Number(this.life) - 1;
+      }
 
-    if (Number(this.life) <= 0 && !this.destroyed) {
-      this.destroyed = true;
+      if (Number(this.life) <= 0 && !this.destroyed) {
+        this.destroyed = true;
+        return;
+      }
     }
   }
 

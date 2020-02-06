@@ -20,6 +20,8 @@ export default class Ball {
     };
 
     this.power = Math.round((this.game.level + 1) / 2);
+
+    this.active = true;
   }
 
   draw(ctx) {
@@ -48,7 +50,12 @@ export default class Ball {
 
     // Check if the ball is on the bottom of the canvas and load next level
     if (this.position.y + this.size > this.gameHeight) {
-      this.game.start();
+      if (this.game.gameBalls.length === 1) {
+        this.game.start();
+      } else {
+        this.active = false;
+        this.game.gameBalls = this.game.gameBalls.filter(ball => ball.active);
+      }
     }
   }
 }
