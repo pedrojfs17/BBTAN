@@ -45,6 +45,7 @@ export default class Ball {
 
     // Check collisions with the top of the canvas
     if (this.position.y < 0) {
+      this.position.y = 1;
       this.speed.y = -this.speed.y;
     }
 
